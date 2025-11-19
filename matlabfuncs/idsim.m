@@ -1,5 +1,4 @@
-function ysim = idsimulate(model, z)
+function ysim = idsimulate(model, u)
     sys = id2tf(model);        
-    u   = z(:,2);
     ysim = lsim(sys, u);
 end

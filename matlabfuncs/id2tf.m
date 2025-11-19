@@ -1,14 +1,14 @@
 function sys = id2tf(m)
-    na = arx.nn(1);  % Or arx.nn(1) if following assignment exactly
-    nb = arx.nn(2);
-    nk = arx.nn(3);
+    na = m.nn(1);  % Or arx.nn(1) if following assignment exactly
+    nb = m.nn(2);
+    nk = m.nn(3);
     
     % Extract coefficients from theta
-    a = arx.theta(1:na);          % [a1; a2; ...; ana]
-    b = arx.theta(na+1:end);      % [b1; b2; ...; bnb]
+    a = m.theta(1:na);          % [a1; a2; ...; ana]
+    b = m.theta(na+1:end);      % [b1; b2; ...; bnb]
     
     % Build denominator: [1 a1 a2 ... ana]
-    den = [1 a'];
+    den = [1 -a'];
     
     % Build numerator: [zeros(1, nk) b1 b2 ... bnb]
     num = [zeros(1, nk) b'];
