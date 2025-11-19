@@ -1,3 +1,24 @@
+addpath('matlabfuncs')
+
+function phi=uy2phi(z,nbacks)
+    %regressor shape [N,na+nb+2]
+    %z: [N,2] firs col output, second inp
+    %phi = [-y(t-1), -y(t-2), ... , -y(t-na), u(t-nk), u(t-nk-1), ... , u(t-nk-nb+1)]
+    na=nbacks(1);nb=nbacks(2);nk=nbacks(3);
+    limiter=max(na,nk+nb-1);
+    phi=zeros(size(z,1)-limiter,na+nb+1);
+
+    for i = 1:(size(z,1)-limiter)
+        t = limiter + i;
+        y_idx = (t-1):-1:(t-na); 
+        u_idx = (t-nk):-1:(t-nk-nb+1); 
+
+        phi(i,1) = z(t,1);
+        phi(i,2:1+na) = z(y_idx,1)';
+        phi(i,1+na+1:end) = z(u_idx,2)';
+    end
+end
+
 
 % given data
 u=[1 2 3 4 5]';
