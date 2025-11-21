@@ -60,6 +60,8 @@ y=[2 -2 -3 -4 -2 0 1]';
 model=arxfit([y u],[2 1 2]);
 
 model.theta
+size(model.theta)
+
 
 %     1.1573
 %    -0.5004
