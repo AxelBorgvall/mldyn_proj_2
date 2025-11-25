@@ -1,9 +1,4 @@
 function m = arxfit(varargin)
-    % add  path temporarily
-    oldpath = path;
-    cleanup = onCleanup(@() path(oldpath));  % restore path when function exits
-    addpath('proj1funcs');  
-
     if length(varargin) == 2
         m=arx1d(varargin{1},varargin{2});
     elseif length(varargin)==3
@@ -22,6 +17,7 @@ function phi=uy2phi(z,nbacks)
     phi=zeros(size(z,1)-limiter,na+nb+1);
 
     for i = 1:(size(z,1)-limiter)
+
         t = limiter + i;
         y_idx = (t-1):-1:(t-na); 
         u_idx = (t-nk):-1:(t-nk-nb+1); 
@@ -30,18 +26,20 @@ function phi=uy2phi(z,nbacks)
         phi(i,2:1+na) = z(y_idx,1)';
         phi(i,1+na+1:end) = z(u_idx,2)';
     end
+
 end
 
 
 function m= arx1d(z,nbacks)
     % z: [N,2] input/output
-    phi=uy2phi(z,nbacks)
+    phi=uy2phi(z,nbacks);
     m=LinRegress(phi(:,2:end), phi(:,1));
     m.type="ARX";
     m.nn=nbacks;
 end
 
 function [A,B]= arxnd(u,y,nbacks)
+    % Maybe I will implement this if i get bored, maybe not :)
     A=0;
     B=0;
 end

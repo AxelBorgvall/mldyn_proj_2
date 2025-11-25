@@ -1,5 +1,5 @@
 function sys = id2tf(m)
-    na = m.nn(1);  % Or arx.nn(1) if following assignment exactly
+    na = m.nn(1);  
     nb = m.nn(2);
     nk = m.nn(3);
     
