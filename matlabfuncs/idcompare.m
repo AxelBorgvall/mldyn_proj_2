@@ -1,6 +1,5 @@
 function idcompare(m,z,horizon)
     figure;     % activate or create figure
-
     [ypred, V_ypred] = idpredvar(m, z, horizon);
     x=1:size(z,1);
     % 95% confidence interval -> z-score approx 1.96
@@ -13,8 +12,8 @@ function idcompare(m,z,horizon)
 
     plot(x, ypred,'DisplayName', 'predicted series');
     
-    % Plot uncertainty area
-    fill([x, fliplr(x)], [lower_bound', fliplr(upper_bound')], 'r', ...
+    % plot uncertainty area
+    fill([x, fliplr(x)], [lower_bound', fliplr(upper_bound')], 'g', ...
          'FaceAlpha', 0.2, 'EdgeColor', 'none', 'DisplayName', '95% Confidence Interval');
 
     legend;

@@ -9,7 +9,6 @@ function [ypred, V_ypred] = idpredvar(m, z, horizon)
     N = size(z,1);
 
     P_theta = m.variance;
-    sigma2_e = m.sigma2;
 
     ypred = zeros(N,1);
     V_ypred = zeros(N,1);
@@ -42,22 +41,22 @@ function [ypred, V_ypred] = idpredvar(m, z, horizon)
             valid_u = idx_u >= 1 & idx_u <= N;
             reg_u(valid_u) = u(idx_u(valid_u));
             
-            phi_k = [-reg_y; reg_u];
+            phi_k = [reg_y; reg_u];
 
             % predict
             ytemp(k) = phi_k' * theta;
 
-            % Propagate variance
-            % Term 1: from parameter uncertainty
+            % propagate variance
+            % from parameter uncertainty
             V_param = phi_k' * P_theta * phi_k;
             
-            % Term 2: from past prediction noise propagation
+            % from past prediction noise propagation
             V_reg_y = zeros(na,1);
             V_reg_y(valid_y) = V_ytemp(idx_y(valid_y));
             V_prop = theta(1:na)' * V_reg_y;
 
-            % Total variance for ytemp(k) is sum of components
-            V_ytemp(k) = V_param + V_prop + sigma2_e;
+            % total variance for ytemp
+            V_ytemp(k) = V_param+ V_prop;
         end
         
         ypred(t) = ytemp(t);
