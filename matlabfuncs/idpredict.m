@@ -1,7 +1,7 @@
 function ypred = idpredict(m, z, horizon)
-    na = m.nn(1);
-    nb = m.nn(2);
-    nk = m.nn(3);
+    na = m.nn(1); %outputs considered
+    nb = m.nn(2); %inputs considered
+    nk = m.nn(3); %delay
 
     theta = m.theta(:);
     y = z(:,1);
@@ -13,15 +13,25 @@ function ypred = idpredict(m, z, horizon)
     % for every value in input sequence
     % horizon is the recursive steps ahead
     for t = 1:N
+        % Determine the cutoff point for using measured y.
+        % For Inf horizon, we want to simulate from the start, so cutoff is 0.
 
-        if t < horizon % if t<"horizon" we output 0 and ignore (bcuz no historical data?)
-            ypred(t) = 0;
-            continue
-        end
+        % if horizon>t
+        %     cutoff = 0;
+        % else
+        %     cutoff = t - horizon;
+        % end
+        cutoff=max(t-horizon,0);
+        
+        %hard sets 0 if insufficient data, lets try to limit the used parameters instead
+        % if t < max([na, nb+nk-1, 1]) || t < horizon
+        %     ypred(t) = 0;
+        %     continue;
+        % end
 
-        %from every t cutoff is horizon steps back
-        cutoff = t - horizon; % last index where measured y is allowed
-        ytemp = zeros(t,1);
+        ylen=max([t,na,nb+nk-1,1]);
+
+        ytemp = zeros(ylen,1);
         if cutoff >= 1
             % ytemp 1:t-horizon is filled since 
             ytemp(1:cutoff) = y(1:cutoff);   % measured outputs where allowed
@@ -47,4 +57,3 @@ function ypred = idpredict(m, z, horizon)
         ypred(t) = ytemp(t);
     end
 end
-
