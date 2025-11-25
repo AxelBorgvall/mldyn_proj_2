@@ -14,21 +14,10 @@ function ypred = idpredict(m, z, horizon)
     % horizon is the recursive steps ahead
     for t = 1:N
         % Determine the cutoff point for using measured y.
-        % For Inf horizon, we want to simulate from the start, so cutoff is 0.
-
-        % if horizon>t
-        %     cutoff = 0;
-        % else
-        %     cutoff = t - horizon;
-        % end
+        % For horizon greater than t we sim from start
         cutoff=max(t-horizon,0);
         
-        %hard sets 0 if insufficient data, lets try to limit the used parameters instead
-        % if t < max([na, nb+nk-1, 1]) || t < horizon
-        %     ypred(t) = 0;
-        %     continue;
-        % end
-
+        %sets to length required by params or all historical if greater
         ylen=max([t,na,nb+nk-1,1]);
 
         ytemp = zeros(ylen,1);
