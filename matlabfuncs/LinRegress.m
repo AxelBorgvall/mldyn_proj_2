@@ -26,5 +26,6 @@ function m = LinRegress(x, y)
     % Pack results in a struct
     m.model = 'LR';
     m.theta = theta;
+    m.sigma2 = sigma2;
     m.variance = variance;
 end
