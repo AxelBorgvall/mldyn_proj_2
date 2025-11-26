@@ -1,4 +1,4 @@
-addpath('matlabfuncs')
+addpath('arxfuncs')
 
 
 % given data
