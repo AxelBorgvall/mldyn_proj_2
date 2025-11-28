@@ -1,21 +1,29 @@
 function m=oefit(z,nn)
-    nn_high = [nn(1)*4, nn(2)*4, nn(3)];
+    % estimate high order arx
+    multiplier = 4;
+    nn_high = [nn(1) * multiplier, nn(2) * multiplier, nn(3)];
     temp_model = arxfit(z, nn_high);
-    % simulate model to get ys
+
+    % simulate output
     ys = idpredict(temp_model, z, inf);
-    % make the oe model
-    m = arxfit([ys, z(:,2)], nn);
-    m.type = "OE"; 
+    ah_coeffs = [1, -temp_model.theta(1:nn_high(1))'];
+    zf = filter(ah_coeffs, 1, [ys, z(:,2)]);
+    m = arxfit(zf, nn);
+
+    m.type = "OE";
 end
 
+% simple ------------------------------
 
-% simple version-------------------------------------------------------------------------------------
 % function m=oefit(z,nn)
-%     nn_high = [nn(1)*4, nn(2)*4, nn(3)];
+%     % estimate high order arx
+%     multiplier = 4;
+%     nn_high = [nn(1) * multiplier, nn(2) * multiplier, nn(3)];
 %     temp_model = arxfit(z, nn_high);
-%     % simulate model to get ys
+
+%     % simulate output
 %     ys = idpredict(temp_model, z, inf);
-%     % make the oe model
-%     m = arxfit([ys, z(:,2)], nn);
-%     m.type = "OE"; 
+% m = arxfit([ys, z(:,2)], nn);
+    
+%     m.type = "OE";
 % end
