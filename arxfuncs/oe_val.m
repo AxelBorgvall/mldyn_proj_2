@@ -6,9 +6,9 @@ addpath('matlabfuncs')
 % ...existing code...
 
 rng(0);
-N = 10000;    
-vari=0;
-varo=0;
+N = 1000;    
+vari=0.0;
+varo=0.1;
 
 na=3;
 nb=2;
