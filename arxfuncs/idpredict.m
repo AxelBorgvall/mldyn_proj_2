@@ -1,4 +1,19 @@
 function ypred = idpredict(m, z, horizon)
+    if m.type=="ARX"
+        ypred=arxpred(m,z,horizon);
+    elseif m.type=="OE"
+        ypred=oepred(m,z,horizon);
+    else
+        error("unrecognized model type");
+    end
+end
+
+function ypred=oepred(m,z,horizon)
+    ypred=arxpred(m,z,inf);
+end
+
+
+function ypred = arxpred(m, z, horizon)
     na = m.nn(1); %outputs considered
     nb = m.nn(2); %inputs considered
     nk = m.nn(3); %delay

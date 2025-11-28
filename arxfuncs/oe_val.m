@@ -52,13 +52,20 @@ z = [y, u];
 % Fit
 m = oefit(z, nn);
 
-disp("True theta:")
-theta
+disp(m.theta);
+disp(theta);
 
-disp("Estimated theta:")
-est = m.theta;
-est
+ypred=idpredict(m,z,nn);
+
+disp(mean((y-ypred).^2));
+
+% disp("True theta:")
+% theta
+
+% disp("Estimated theta:")
+% est = m.theta;
+% est
 
 % quick error metric
-err = norm(est - theta);
-fprintf("Estimation error (2-norm): %.4e\n", err);
+% err = norm(est - theta);
+% fprintf("Estimation error (2-norm): %.4e\n", err);
