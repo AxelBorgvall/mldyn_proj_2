@@ -74,7 +74,6 @@ function [ypred, V_ypred] = arxpredvar(m, z, horizon)
 
     % for every value in input sequence
     % horizon is the recursive steps ahead
-    for t = 1:N
     for t = 1:N 
         % Determine the cutoff point for using measured y.
         cutoff = max(t - horizon, 0);

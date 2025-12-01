@@ -1,14 +1,12 @@
-
 % filepath: c:\Users\axelb\matlabProjects\mldyn_proj_2\arxfit_val.m
-addpath('proj1funcs')
-addpath('matlabfuncs')
+addpath('arxfuncs')
 
 % ...existing code...
 
 rng(0);
-N = 5000;    
+N = 1000;    
 vari=0.0;
-varo=1;
+varo=0.4;
 
 na=3;
 nb=2;
@@ -44,29 +42,24 @@ end
 
 noise=randn(N,1)*varo;
 if varo~=0
+    clean_y=y;
     y=y+noise;
 end
 
+
+
 z = [y, u];
+zclean=[clean_y,u];
 
 % Fit
-m = arxfit(z, nn);
+m = oefit(z, nn);
 
-disp(m.type);
 disp(m.theta);
 disp(theta);
 
-ypred=idpredict(m,z,inf);
+ypred=idpredict(m,z,nn);
 
-disp(mean((y-ypred).^2));
+zplot=zclean(1:floor(size(zclean, 1) / 10),:);
 
-% disp("True theta:")
-% theta
-
-% disp("Estimated theta:")
-% est = m.theta;
-% est
-
-% quick error metric
-% err = norm(est - theta);
-% fprintf("Estimation error (2-norm): %.4e\n", err);
+disp(mean((clean_y-ypred).^2));
+idcompare(m,zplot,inf);

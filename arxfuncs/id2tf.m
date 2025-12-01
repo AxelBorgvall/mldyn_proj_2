@@ -5,9 +5,10 @@ function sys = id2tf(m)
         a = m.theta(1:na);
         den = [1 -a']; % A(q)
     elseif m.type == "OE"
-        nf = m.nn(1); % F(q) has 'na' coefficients in nn(1)
+        % does the same thing as arx really
+        nf = m.nn(1); 
         f = m.theta(1:nf);
-        den = [1 -f']; % F(q)
+        den = [1 -f']; 
     else
         error("Unsupported model type for id2tf: " + m.type);
     end
