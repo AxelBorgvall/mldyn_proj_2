@@ -9,6 +9,10 @@ function ypred = idpredict(m, z, horizon)
 end
 
 function ypred=oepred(m,z,horizon)
+    % For an OE model y(t) = [B(q)/F(q)]u(t) + e(t), the noise e(t) is white
+    % and does not affect the system's state. Therefore, the best prediction
+    % at any horizon is a pure simulation of the model using the input u.
+    % This is achieved by calling the predictor with an infinite horizon.
     ypred=arxpred(m,z,inf);
 end
 
